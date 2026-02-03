@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Odmaa ❤️</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap');
+
+body {
+    margin: 0;
+    background: #fff0f3;
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #5c3d2e;
+}
+
+#inviteScreen, #letterSection {
+    text-align: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.cat-gif {
+    width: 200px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 14px 35px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    background: #ff85a1;
+    color: white;
+    transition: 0.3s;
+}
+
+button:hover { background: #ff4d6d; }
+
+#letterSection {
+    display: none;
+    max-width: 450px;
+    background: #fffafa;
+    border-radius: 30px;
+    padding: 35px;
+    border: 2px dashed #ffb3c1;
+}
+
+.header-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.6rem;
+    color: #ff4d6d;
+}
+
+.romantic-msg {
+    margin: 15px 0 25px;
+    line-height: 1.6;
+}
+
+.quiz-btn {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    background: #ffcad4;
+    color: #5c3d2e;
+}
+
+#stats {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+#flowerResult {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: white;
+    padding: 30px;
+    border-radius: 30px;
+    text-align: center;
+    transition: 0.4s;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+}
+
+#flowerResult.show {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.big-emoji {
+    font-size: 80px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="inviteScreen">
+    <img class="cat-gif" src="https://media.giphy.com/media/cLS1cfxvGOPVpf9g3y/giphy.gif">
+    <h1 style="color:#ff4d6d;">A letter for Odmaa ✨</h1>
+    <button id="openBtn">Open ❤️</button>
+</div>
+
+<div id="letterSection">
+    <h2 class="header-text">Will you be my Valentine?</h2>
+
+    <p class="romantic-msg">
+        Every day with you is already Valentine’s Day for me.  
+        But today… I want to make it official ❤️
+    </p>
+
+    <div id="stats">
+        🪙 Coins: <span id="coins">0</span> / 5  
+        <br>
+        ❌ Fails left: <span id="fails">3</span>
+    </div>
+
+    <div id="quizBox"></div>
+</div>
+
+<div id="flowerResult">
+    <h2 style="color:#ff4d6d;">Bouquet for You 💐</h2>
+    <div class="big-emoji">💐</div>
+    <p>You passed every test…  
+    My Valentine forever ❤️</p>
+    <button onclick="closePopup()">Ahij darkuushuu 😜</button>
+</div>
+
+<script>
+const questions = [
+    { q:"Choose my favorite romance movie!",
+      o:["Past Lives (2023)","Twilight","Before Sunset"], a:0 },
+    { q:"What was my first pet?",
+      o:["Cat","Dog","Turtle"], a:1 },
+    { q:"Best chef in my opinion?",
+      o:["You ❤️","Joel Robuchon","Emee"], a:0 },
+    { q:"My first MLBB name?",
+      o:["Haruki2727","Sensei_Gabby","Temuujin2703"], a:1 },
+    { q:"When did we first meet?",
+      o:["June 23","June 6","July 2"], a:0 }
+];
+
+let index = 0;
+let coins = 0;
+let fails = 3;
+
+const quizBox = document.getElementById("quizBox");
+
+function render() {
+    if (coins === 5) {
+        document.getElementById("flowerResult").classList.add("show");
+        quizBox.innerHTML = "<b>You unlocked the bouquet 🌸</b>";
+        return;
+    }
+
+    if (fails === 0) {
+        quizBox.innerHTML = "<b>Game Over 😭<br>But you still own my heart ❤️</b>";
+        return;
+    }
+
+    const q = questions[index];
+    quizBox.innerHTML = `<p><b>${q.q}</b></p>` +
+        q.o.map((opt,i)=>`
+            <button class="quiz-btn" onclick="answer(${i})">${opt}</button>
+        `).join("");
+}
+
+function answer(choice) {
+    if (choice === questions[index].a) {
+        coins++;
+        index++;
+    } else {
+        fails--;
+    }
+    document.getElementById("coins").innerText = coins;
+    document.getElementById("fails").innerText = fails;
+    render();
+}
+
+document.getElementById("openBtn").onclick = () => {
+    document.getElementById("inviteScreen").style.display="none";
+    document.getElementById("letterSection").style.display="block";
+    render();
+};
+
+function closePopup() {
+    document.getElementById("flowerResult").classList.remove("show");
+}
+</script>
+
+</body>
+</html>

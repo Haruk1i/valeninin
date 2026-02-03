@@ -37,12 +37,22 @@ button {
     border-radius: 30px;
     cursor: pointer;
     font-weight: bold;
-    background: #ff85a1;
-    color: white;
     transition: 0.3s;
 }
 
-button:hover { background: #ff4d6d; }
+.accept {
+    background: #ff4d6d;
+    color: white;
+}
+
+.decline {
+    background: #ffcad4;
+    color: #5c3d2e;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
 
 #letterSection {
     display: none;
@@ -97,6 +107,12 @@ button:hover { background: #ff4d6d; }
 .big-emoji {
     font-size: 80px;
 }
+
+#declineMsg {
+    color: #ff4d6d;
+    font-weight: bold;
+    margin-top: 15px;
+}
 </style>
 </head>
 
@@ -105,24 +121,37 @@ button:hover { background: #ff4d6d; }
 <div id="inviteScreen">
     <img class="cat-gif" src="https://media.giphy.com/media/cLS1cfxvGOPVpf9g3y/giphy.gif">
     <h1 style="color:#ff4d6d;">A letter for Odmaa ✨</h1>
-    <button id="openBtn">Open ❤️</button>
+    <button id="openBtn" class="accept">Open ❤️</button>
 </div>
 
 <div id="letterSection">
-    <h2 class="header-text">Will you be my Valentine?</h2>
+
+    <!-- VALENTINE ACCEPT / DECLINE -->
+    <h2 class="header-text">Will you be my Valentine? 💘</h2>
 
     <p class="romantic-msg">
-        Every day with you is already Valentine’s Day for me.  
-        But today… I want to make it official ❤️
+        One simple question…  
+        One very serious answer 😌
     </p>
 
-    <div id="stats">
-        🪙 Coins: <span id="coins">0</span> / 5  
-        <br>
-        ❌ Fails left: <span id="fails">3</span>
-    </div>
+    <button class="accept" onclick="acceptValentine()">Accept ❤️</button>
+    <br><br>
+    <button class="decline" onclick="declineValentine()">Decline 💔</button>
 
-    <div id="quizBox"></div>
+    <p id="declineMsg"></p>
+
+    <!-- QUIZ SECTION -->
+    <div id="quizSection" style="display:none;">
+        <hr style="margin:25px 0;border:none;border-top:2px dashed #ffb3c1;">
+
+        <div id="stats">
+            🪙 Coins: <span id="coins">0</span> / 5  
+            <br>
+            ❌ Fails left: <span id="fails">3</span>
+        </div>
+
+        <div id="quizBox"></div>
+    </div>
 </div>
 
 <div id="flowerResult">
@@ -153,6 +182,16 @@ let fails = 3;
 
 const quizBox = document.getElementById("quizBox");
 
+function acceptValentine() {
+    document.getElementById("quizSection").style.display = "block";
+    render();
+}
+
+function declineValentine() {
+    document.getElementById("declineMsg").innerText =
+        "Too late 😌 I already chose you as my Valentine ❤️";
+}
+
 function render() {
     if (coins === 5) {
         document.getElementById("flowerResult").classList.add("show");
@@ -161,7 +200,8 @@ function render() {
     }
 
     if (fails === 0) {
-        quizBox.innerHTML = "<b>Game Over 😭<br>But you still own my heart ❤️</b>";
+        quizBox.innerHTML =
+            "<b>Game Over 😭<br>But you still own my heart ❤️</b>";
         return;
     }
 
@@ -187,7 +227,6 @@ function answer(choice) {
 document.getElementById("openBtn").onclick = () => {
     document.getElementById("inviteScreen").style.display="none";
     document.getElementById("letterSection").style.display="block";
-    render();
 };
 
 function closePopup() {
